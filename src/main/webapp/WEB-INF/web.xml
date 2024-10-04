@@ -14,6 +14,26 @@
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
 
+	<!-- 한글 처리 등록만 하면됨. listener 밑에 filter로 등록 -->
+	<!-- request.setCharacterSet("utf-8"); -->
+	<filter>
+		<filter-name>encodingFilter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter
+		</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>encodingFilter</filter-name>
+		<!-- 그대로 복붙 -->
+		<url-pattern>/*</url-pattern>
+		<!-- 현재프로젝트의 모든 요청에 대하여 encodingFilter를 처리해라(encoding체계:UTF-8) -->
+	</filter-mapping>
+	<!-- utf-8 등록 -->
+	<!-- 요청하면 어떻게 실행될지 설정 -->
+	
 	<!-- Processes application requests -->
 	<servlet>
 		<servlet-name>appServlet</servlet-name>
@@ -30,4 +50,20 @@
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 
+	<!-- 모든 요청 url 이 .htm 확장자면 dispatcherone 찾아서 DispatcherServlet실행함 -->
+	<!-- DispatcherServlet : 클라이언트의 요청을 받고 처리함. spring의 중심 -->
+	<servlet>
+		<servlet-name>dispatcherone</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/dispatcher-one.xml</param-value>
+			<!-- bean 환경설정파일 -->
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>dispatcherone</servlet-name>
+		<url-pattern>*.htm</url-pattern>
+	</servlet-mapping>
 </web-app>

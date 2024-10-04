@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Controller -->
+	<bean id="hello" class="sec01_basic.HelloController" />
+	
+	<!-- viewResolver:뷰설정(뷰에 대한 정보 등록) -->
+	<!-- InternalResourceViewResolver 이게 일반적인 방법 -->
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">  
+		<!-- 앞뒤에 있는 경로 설정 -->
+		<property name="prefix" value="/WEB-INF/" />
+		<property name="suffix" value=".jsp" />
+		<!-- 슬래시가 중요함 :  /WEB-INF/ +view/part01/hello +.jsp -->
+	</bean>
+	
+</beans>
