@@ -5,6 +5,7 @@
 
 	<!-- Controller -->
 	<bean id="hello" class="sec01_basic.HelloController" />
+	<bean id="helloModel" class="sec02_model.HelloModelController"/>
 	
 	<!-- viewResolver:뷰설정(뷰에 대한 정보 등록) -->
 	<!-- InternalResourceViewResolver 이게 일반적인 방법 -->
