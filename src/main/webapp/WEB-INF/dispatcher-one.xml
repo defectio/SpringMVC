@@ -3,11 +3,47 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+	<!-- [1] dataSource 빈 선언 -->
+	<!-- maven repository에서 spring-jdbc dependency 추가 -->
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource" >
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
+		<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe" />
+		<property name="username" value="hr" />
+		<property name="password" value="1234" />
+	</bean>
+	
+	<!-- [2] sqlSessionFactoryBean 빈 선언 : 관리해주는 빈 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="mapperLocations">
+			<list>  
+				<value>classpath:sec05_redirect/memMapper.xml</value>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- [3] SqlSessionTemplate 빈 선언 -->
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg ref="sqlSessionFactory" />
+	</bean>
+	
+	<!-- [4] MemDaoImp 빈 선언 -->
+	<bean id="dao" class="sec05_redirect.MemDaoImp">
+		<property name="sqlSession" ref="sqlSession" />
+	</bean>
+	
 	<!-- Controller -->
 	<bean id="hello" class="sec01_basic.HelloController" />
 	<bean id="helloModel" class="sec02_model.HelloModelController"/>
 	<bean id="helloModelView" class="sec03_modelandview.HelloModelAndViewController"/>
 	<bean id="helloCommand" class="sec04_command.HelloCommandController"/>
+	<bean id="memList" class="sec05_redirect.MemListController">
+		<property name="dao" ref="dao"/>
+	</bean>
+	<bean id="memInsert" class="sec05_redirect.MemInsertController">
+		<property name="dao" ref="dao"/>
+	</bean>
+	
 	
 	<!-- viewResolver:뷰설정(뷰에 대한 정보 등록) -->
 	<!-- InternalResourceViewResolver 이게 일반적인 방법 -->
