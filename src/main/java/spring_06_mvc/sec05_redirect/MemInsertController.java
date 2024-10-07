@@ -25,7 +25,7 @@ public class MemInsertController {
 	 */
 	@RequestMapping(value="/memInsert.htm", method=RequestMethod.GET)
 	public String form() {
-		return "view/sec05/memForm";
+		return "view/spring_06_mvc/sec05/memForm";
 	}
 	
 	/**

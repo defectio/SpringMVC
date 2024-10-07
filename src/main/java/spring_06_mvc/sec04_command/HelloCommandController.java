@@ -24,7 +24,7 @@ public class HelloCommandController {
 	@RequestMapping(value="/mem.htm", method=RequestMethod.GET)
 	public String form() {
 		// 뷰페이지만 응답하려고할 때 -> 리턴 타입을 스트링으로 하고, 뷰페이지 넘긴다.
-		return "view/sec04/memForm";
+		return "view/spring_06_mvc/sec04/memForm";
 	}
 	
 	/**
@@ -108,7 +108,7 @@ public class HelloCommandController {
 		mav.addObject("req_name", req.getParameter("name"));
 		mav.addObject("req_age", req.getParameter("age"));
 		mav.addObject("req_address", req.getRemoteAddr()); // req의 ip 주소(클라이언트의 ip주소)
-		mav.setViewName("view/sec04/memPro");
+		mav.setViewName("view/spring_06_mvc/sec04/memPro");
 		
 		return mav;
 	}

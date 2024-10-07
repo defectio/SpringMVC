@@ -25,7 +25,7 @@ public class OrderInsertController {
 	 */
 	@RequestMapping(value="/orderInsert.htm", method=RequestMethod.GET)
 	public String form() {
-		return "view/sec06/form";
+		return "view/spring_06_mvc/sec06/form";
 	}
 	
 	/**

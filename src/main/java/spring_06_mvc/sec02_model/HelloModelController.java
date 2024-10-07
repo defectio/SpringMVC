@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class HelloModelController {
 	
 	// 잘 사용하는 방식은 아님. 한번 짚고만 넘어가(이렇게 하는 경우 거의 없음)
-	@RequestMapping("/view/sec02/helloModel.htm")
+	@RequestMapping("/view/spring_06_mvc/sec02/helloModel.htm")
 	public Model search() {
 		Model model = new ExtendedModelMap();
 		model.addAttribute("id", "korea"); // key-value

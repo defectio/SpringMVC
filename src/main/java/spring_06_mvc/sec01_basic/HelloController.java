@@ -23,7 +23,7 @@ public class HelloController {
 			sum = sum + i;
 			System.out.printf("i=%d sum=%d\n", i , sum);
 		}
-		return "view/sec01/hello";
+		return "view/spring_06_mvc/sec01/hello";
 	}
 
 }

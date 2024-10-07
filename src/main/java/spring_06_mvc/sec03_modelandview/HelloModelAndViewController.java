@@ -20,7 +20,7 @@ public class HelloModelAndViewController {
 		mav.addObject("age", 30);
 		
 		//"뷰페이지"에 대한 정보를 넘겨줌
-		mav.setViewName("view/sec03/helloModelView");
+		mav.setViewName("view/spring_06_mvc/sec03/helloModelView");
 		
 		return mav;
 	}

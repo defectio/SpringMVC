@@ -28,7 +28,7 @@ public class OrderListController {
 	@RequestMapping(value="/orderList.htm")
 	public ModelAndView process(ModelAndView mav) {
 		mav.addObject("aList", dao.selectMethod());		
-		mav.setViewName("view/sec06/list");
+		mav.setViewName("view/spring_06_mvc/sec06/list");
 		
 		return mav;
 	}

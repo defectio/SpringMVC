@@ -27,7 +27,7 @@ public class MemListController {
     @RequestMapping("/memList.htm")
     public ModelAndView list(ModelAndView mav) {
     	mav.addObject("aList", dao.list());
-    	mav.setViewName("view/sec05/memList");
+    	mav.setViewName("view/spring_06_mvc/sec05/memList");
     	
     	return mav;
     }
