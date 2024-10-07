@@ -1,4 +1,4 @@
-package sec02_model;
+package spring_06_mvc.sec02_model;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ExtendedModelMap;

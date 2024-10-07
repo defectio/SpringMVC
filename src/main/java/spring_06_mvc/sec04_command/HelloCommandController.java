@@ -1,4 +1,4 @@
-package sec04_command;
+package spring_06_mvc.sec04_command;
 
 import javax.servlet.http.HttpServletRequest;
 

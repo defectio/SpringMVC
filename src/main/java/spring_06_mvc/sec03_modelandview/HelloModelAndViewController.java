@@ -1,4 +1,4 @@
-package sec03_modelandview;
+package spring_06_mvc.sec03_modelandview;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -17,7 +17,7 @@
 		<property name="dataSource" ref="dataSource" />
 		<property name="mapperLocations">
 			<list>  
-				<value>classpath:sec05_redirect/memMapper.xml</value>
+				<value>classpath:spring_06_mvc/sec05_redirect/memMapper.xml</value>
 			</list>
 		</property>
 	</bean>
@@ -28,22 +28,21 @@
 	</bean>
 	
 	<!-- [4] MemDaoImp 빈 선언 -->
-	<bean id="dao" class="sec05_redirect.MemDaoImp">
+	<bean id="dao" class="spring_06_mvc.sec05_redirect.MemDaoImp">
 		<property name="sqlSession" ref="sqlSession" />
 	</bean>
 	
 	<!-- Controller -->
-	<bean id="hello" class="sec01_basic.HelloController" />
-	<bean id="helloModel" class="sec02_model.HelloModelController"/>
-	<bean id="helloModelView" class="sec03_modelandview.HelloModelAndViewController"/>
-	<bean id="helloCommand" class="sec04_command.HelloCommandController"/>
-	<bean id="memList" class="sec05_redirect.MemListController">
+	<bean id="hello" class="spring_06_mvc.sec01_basic.HelloController" />
+	<bean id="helloModel" class="spring_06_mvc.sec02_model.HelloModelController"/>
+	<bean id="helloModelView" class="spring_06_mvc.sec03_modelandview.HelloModelAndViewController"/>
+	<bean id="helloCommand" class="spring_06_mvc.sec04_command.HelloCommandController"/>
+	<bean id="memList" class="spring_06_mvc.sec05_redirect.MemListController">
 		<property name="dao" ref="dao"/>
 	</bean>
-	<bean id="memInsert" class="sec05_redirect.MemInsertController">
+	<bean id="memInsert" class="spring_06_mvc.sec05_redirect.MemInsertController">
 		<property name="dao" ref="dao"/>
 	</bean>
-	
 	
 	<!-- viewResolver:뷰설정(뷰에 대한 정보 등록) -->
 	<!-- InternalResourceViewResolver 이게 일반적인 방법 -->

@@ -1,4 +1,4 @@
-package sec01_basic;
+package spring_06_mvc.sec01_basic;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

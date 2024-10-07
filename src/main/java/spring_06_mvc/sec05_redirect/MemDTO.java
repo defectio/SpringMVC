@@ -1,4 +1,4 @@
-package sec05_redirect;
+package spring_06_mvc.sec05_redirect;
 
 /**
  * DB hr.mem 테이블 사용

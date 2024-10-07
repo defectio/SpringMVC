@@ -1,4 +1,4 @@
-package sec05_redirect;
+package spring_06_mvc.sec05_redirect;
 
 import java.util.List;
 

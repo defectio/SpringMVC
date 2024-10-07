@@ -1,4 +1,4 @@
-package sec05_redirect;
+package spring_06_mvc.sec05_redirect;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

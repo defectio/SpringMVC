@@ -1,4 +1,4 @@
-package sec04_command;
+package spring_06_mvc.sec04_command;
 
 public class MemDTO {
 	//form 태그의 name 속성에 지정하는 값과 멤버변수명이 같으면 auto-mapping됨.

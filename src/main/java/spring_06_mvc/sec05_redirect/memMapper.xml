@@ -5,11 +5,11 @@
     
     <!-- 쿼리문 작성 -->    
     <mapper namespace="mem">
-    	<select id="list" resultType="sec05_redirect.MemDTO">
+    	<select id="list" resultType="spring_06_mvc.sec05_redirect.MemDTO">
     		SELECT * FROM hr.mem ORDER BY num desc
     	</select>
     	
-    	<insert id="ins" parameterType="sec05_redirect.MemDTO">
+    	<insert id="ins" parameterType="spring_06_mvc.sec05_redirect.MemDTO">
     		INSERT INTO hr.mem
     		<!-- VALUES (#{num}, #{name}, #{age}, #{loc}) -->
     		VALUES (mem_num_seq.nextval, #{name, jdbcType=VARCHAR}, #{age}, #{loc, jdbcType=VARCHAR})
