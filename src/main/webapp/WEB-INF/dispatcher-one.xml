@@ -18,6 +18,7 @@
 		<property name="mapperLocations">
 			<list>  
 				<value>classpath:spring_06_mvc/sec05_redirect/memMapper.xml</value>
+				<value>classpath:spring_06_mvc/sec06_resultmap/orderMapper.xml</value>
 			</list>
 		</property>
 	</bean>
@@ -31,6 +32,10 @@
 	<bean id="dao" class="spring_06_mvc.sec05_redirect.MemDaoImp">
 		<property name="sqlSession" ref="sqlSession" />
 	</bean>
+	<bean id="orderDao" class="spring_06_mvc.sec06_resultmap.OrderDaoImp">
+		<property name="sqlSession" ref="sqlSession"/>
+	</bean>
+	
 	
 	<!-- Controller -->
 	<bean id="hello" class="spring_06_mvc.sec01_basic.HelloController" />
@@ -42,6 +47,12 @@
 	</bean>
 	<bean id="memInsert" class="spring_06_mvc.sec05_redirect.MemInsertController">
 		<property name="dao" ref="dao"/>
+	</bean>
+	<bean id="orderInsert" class="spring_06_mvc.sec06_resultmap.OrderInsertController">
+		<property name="dao" ref="orderDao"/>
+	</bean>
+	<bean id="orderList" class="spring_06_mvc.sec06_resultmap.OrderListController">
+		<property name="dao" ref="orderDao"/>
 	</bean>
 	
 	<!-- viewResolver:뷰설정(뷰에 대한 정보 등록) -->

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+    <!-- 쿼리문 작성 -->
+    <mapper namespace="order">
+    	
+    	<!-- 다중 insert, 동적 쿼리문 -->
+    	<insert id="ins" parameterType="spring_06_mvc.sec06_resultmap.OrderDTO">
+    		INSERT ALL
+    		<!-- collection:list,array...타입임!! item:mybatis/ items:jstl -->
+    		<!-- jdbcType=VARCHAR : null 허용 (mybatis는 null값 허용안됨.)-->
+    		<!-- collection="list"는 OrderDTO에서 정의한 필드명임 -> 내부적으로 getter로 list의 값을 가져옴. -->
+    		<foreach collection="list" item="element">
+    			INTO orderitem
+    			VALUES (#{element.id}, #{element.cnt}, #{element.remark}, #{address})
+    		</foreach> 
+    		<!-- 다중 insert 시 SELECT * FROM dual 빠지면 안됨. -->
+    		SELECT * FROM dual
+    	</insert>
+    	
+    	<!-- ResultMap은 DB 필드값과 DTO 객체의 property 명이 다를 때 사용한다. -->
+    	<resultMap type="spring_06_mvc.sec06_resultmap.OrderDTO" id="dto">
+    		<!-- colomn: 컬럼명/ property: DTO의 변수명 -->
+    		<!-- DB조회 결과(result)에 해당하는 column을 OrderDTO의 property(address)에 저장 -->
+    		<result column="address" property="address" />
+    		
+    		<!-- ofType:제네릭타입/ javaType:collection에 따라 달라짐. -->
+    		<!-- collection property가 list니까 javaType이 java.util.List가 됨. -->
+    		<collection property="list" ofType="spring_06_mvc.sec06_resultmap.OrderItem" javaType="java.util.List">
+    			<!-- colomn: 컬럼명/ property: DTO의 변수명 -->
+    			<result column="id" property="id" />
+    			<result column="cnt" property="cnt" />
+    			<result column="remark" property="remark" />
+       		</collection>
+    	</resultMap>
+    	
+    	<!-- resultMap:쿼리문 호출한데로 반환함. -->
+<!--     	<select id="all" resultType="spring_06_mvc.sec06_resultmap.OrderDTO"> -->
+    	<select id="all" resultMap="dto">
+    		SELECT * 
+    		FROM hr.orderitem
+    	</select>
+    	
+    </mapper>
