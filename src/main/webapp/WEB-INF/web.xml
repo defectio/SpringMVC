@@ -52,18 +52,36 @@
 
 	<!-- 모든 요청 url 이 .htm 확장자면 dispatcherone 찾아서 DispatcherServlet실행함 -->
 	<!-- DispatcherServlet : 클라이언트의 요청을 받고 처리함. spring의 중심 -->
+	
+	<!-- spring_06_mvc -->
+<!-- 	<servlet> -->
+<!-- 		<servlet-name>dispatcherone</servlet-name> -->
+<!-- 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class> -->
+<!-- 		<init-param> -->
+<!-- 			<param-name>contextConfigLocation</param-name> -->
+<!-- 			<param-value>/WEB-INF/dispatcher-one.xml</param-value> -->
+<!-- 			bean 환경설정파일 -->
+<!-- 		</init-param> -->
+<!-- 		<load-on-startup>1</load-on-startup> -->
+<!-- 	</servlet> -->
+<!-- 	<servlet-mapping> -->
+<!-- 		<servlet-name>dispatcherone</servlet-name> -->
+<!-- 		<url-pattern>*.htm</url-pattern> -->
+<!-- 	</servlet-mapping> -->
+	
+	<!-- spring_07_board -->
 	<servlet>
-		<servlet-name>dispatcherone</servlet-name>
+		<servlet-name>dispatcherboard</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
-			<param-value>/WEB-INF/dispatcher-one.xml</param-value>
+			<param-value>/WEB-INF/dispatcher-board.xml</param-value>
 			<!-- bean 환경설정파일 -->
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>dispatcherone</servlet-name>
-		<url-pattern>*.htm</url-pattern>
+		<servlet-name>dispatcherboard</servlet-name>
+		<url-pattern>*.do</url-pattern>
 	</servlet-mapping>
 </web-app>

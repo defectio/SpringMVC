@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+
+	<!-- [1] dataSource 빈 선언 -->
+	<!-- maven repository에서 spring-jdbc dependency 추가 -->
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource" >
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
+		<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe" />
+		<property name="username" value="hr" />
+		<property name="password" value="1234" />
+	</bean>
+	
+	<!-- [2] sqlSessionFactoryBean 빈 선언 : 관리해주는 빈 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="mapperLocations">
+			<list>  
+				<value>classpath:spring_07_board/config/BoardMapper.xml</value>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- [3] SqlSessionTemplate 빈 선언 -->
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg ref="sqlSessionFactory" />
+	</bean>
+	
+	<bean id="boardDao" class="spring_07_board.dao.BoardDaoImp">
+		<property name="sqlSession" ref="sqlSession"/>
+	</bean>
+	
+	<bean id="boardService" class="spring_07_board.service.BoardServiceImp">
+		<property name="dao" ref="boardDao" />
+	</bean>
+	
+	<!-- Controller -->
+	<bean id="controller" class="spring_07_board.controller.BoardController">
+		<property name="service" ref="boardService"/>
+	</bean>
+	
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"/>
+	</bean>
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="*Insert" rollback-for="java.lang.Exception"/>
+			<tx:method name="*Update" rollback-for="java.lang.Exception"/>
+			<tx:method name="*Delete" rollback-for="java.lang.Exception"/>
+		</tx:attributes>
+	</tx:advice>
+	<aop:config>
+		<aop:pointcut expression="execution(* spring_07_board.service.Board*.*Insert(..))" id="insert"/>
+		<aop:pointcut expression="execution(* spring_07_board.service.Board*.*Update(..))" id="update"/>
+		<aop:pointcut expression="execution(* spring_07_board.service.Board*.*Delete(..))" id="delete"/>
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="insert"/>
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="update"/>
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="delete"/>
+	</aop:config>
+	
+	<!-- viewResolver:뷰설정(뷰에 대한 정보 등록) -->
+	<!-- InternalResourceViewResolver 이게 일반적인 방법 -->
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/view/spring_07_board/"/>
+		<property name="suffix" value=".jsp"/>
+	</bean>
+
+</beans>

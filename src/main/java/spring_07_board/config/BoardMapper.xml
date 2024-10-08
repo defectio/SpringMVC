@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="basic">
+	
+	<!-- (1) 제목글만 작성할 경우 -->
+	<select id="boardList" resultType="spring_07_board.dto.BoardDTO">
+		SELECT *
+		FROM hr.board
+		ORDER BY num desc
+	</select>
+	<!-- (2) 답변 기능 구현 시 -->
+<!-- 	<select id="boardList" resultType="spring_07_board.dto.BoardDTO"> -->
+<!-- 		SELECT * -->
+<!-- 		FROM hr.board -->
+<!-- 		ORDER BY num, re_step desc -->
+<!-- 	</select> -->
+	
+	<!-- [글 작성하기(DB에 insert)]  -->
+	<!--  jdbcType=VARCHAR : mybatis에서 null이면 오류남. jdbcType 지정해주면 null이어도 됨.-->
+	<insert id="boardInsert" parameterType="spring_07_board.dto.BoardDTO">
+		INSERT INTO hr.board (num, writer, email, subject, reg_date, readcount, ref, re_step, re_level, content, ip, upload)
+		VALUES (board_seq.nextval, #{writer}, #{email}, #{subject}, sysdate, default, board_seq.nextval, 0, 0, #{content}, #{ip, jdbcType=VARCHAR}, #{upload, jdbcType=VARCHAR})
+	</insert>
+	<!-- 답변 기능 추가후 쿼리문 수정  -->
+<!-- 	<insert id="boardInsert" parameterType="spring_07_board.dto.BoardDTO"> -->
+<!--     		INSERT INTO hr.board (num, writer, email, subject, reg_date, readcount,  -->
+<!--     		                                   ref, re_step, re_level, content, ip, upload) -->
+<!--     		VALUES (board_seq.nextval, #{writer}, #{email}, #{subject}, sysdate, 0, -->
+    		              
+<!--     	<choose> -->
+    		<!-- test에 사용된 ref는 파라미터로 넘어온 dto.getRef()로 가져온다. -->
+    		<!-- 제목글일 경우 ref를 num(글번호)와 동일한 값으로 저장함. -->
+<!--     		<when test="ref==0"> -->
+<!--     				board_seq.nextval -->
+<!--     		</when> -->
+    		<!-- 답변글일 경우 : ServiceImp에서 넘기는 값이 있음. -->
+<!--     		<otherwise> -->
+<!--     				#{ref} -->
+<!--     		</otherwise> -->
+<!--     	</choose> -->
+<!--     		         , #{re_step}, #{re_level}, #{content}, #{ip, jdbcType=VARCHAR}, #{upload, jdbcType=VARCHAR})             -->
+<!--     </insert> -->
+    
+    <!-- 답변글 일경우만, reStep 수정 -->
+    <!-- 기준글의 ref와 ref값이 동일하고, 기준글의 re_step 보다 큰 게시글들의 re_step 값 모두 1씩 증가 -->
+    <update id="reStepUpdate" parameterType="spring_07_board.dto.BoardDTO">
+    	UPDATE hr.board
+    	SET re_step = #{re_step}+1
+    	WHERE ref = #{ref} and re_step > #{re_step}
+    </update>
+    
+	<!-- 글번호에 해당하는 record 가져오기 -->
+	<select id="boardByNum" parameterType="int" resultType="spring_07_board.dto.BoardDTO">
+		SELECT * 
+		FROM hr.board
+		WHERE num = #{num}	
+	</select>
+	
+	<!-- 글 번호에 해당하는 게시글 조회수 증가 -->
+	<update id="readCount" parameterType="int">
+		UPDATE hr.board
+		SET readcount = readcount+1
+		WHERE num = #{num}
+	</update>
+	
+	<!-- 글 번호에 해당하는 게시글 업데이트 -->
+	<update id="updateByNum" parameterType="spring_07_board.dto.BoardDTO">
+		UPDATE hr.board
+		SET subject=#{subject}, content=#{content}
+		WHERE num = #{num}
+	</update>
+	
+	<!-- 글 번호에 해당 하는 게시글 삭제하기 -->
+	<delete id="deleteByNum" parameterType="int">
+		DELETE FROM hr.board
+		WHERE num = #{num}
+	</delete>	
+</mapper>
