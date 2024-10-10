@@ -6,49 +6,53 @@
 <mapper namespace="basic">
 	
 	<!-- (1) 제목글만 작성할 경우 -->
-	<select id="boardList" resultType="spring_07_board.dto.BoardDTO">
-		SELECT *
-		FROM hr.board
-		ORDER BY num desc
-	</select>
+<!-- 	<select id="boardList" resultType="spring_07_board.dto.BoardDTO"> -->
+<!-- 		SELECT * -->
+<!-- 		FROM hr.board -->
+<!-- 		ORDER BY num desc -->
+<!-- 	</select> -->
 	<!-- (2) 답변 기능 구현 시 -->
 <!-- 	<select id="boardList" resultType="spring_07_board.dto.BoardDTO"> -->
 <!-- 		SELECT * -->
 <!-- 		FROM hr.board -->
 <!-- 		ORDER BY num, re_step desc -->
 <!-- 	</select> -->
+	<!-- 정렬조건 : 최신작성글이 맨위로, 답변글은 제목글 하위에 level별 최신작성순 -->
+	<select id="boardList" resultType="spring_07_board.dto.BoardDTO">
+		SELECT * 
+		FROM board 
+		ORDER BY ref desc, re_step asc
+	</select>
 	
 	<!-- [글 작성하기(DB에 insert)]  -->
 	<!--  jdbcType=VARCHAR : mybatis에서 null이면 오류남. jdbcType 지정해주면 null이어도 됨.-->
-	<insert id="boardInsert" parameterType="spring_07_board.dto.BoardDTO">
-		INSERT INTO hr.board (num, writer, email, subject, reg_date, readcount, ref, re_step, re_level, content, ip, upload)
-		VALUES (board_seq.nextval, #{writer}, #{email}, #{subject}, sysdate, default, board_seq.nextval, 0, 0, #{content}, #{ip, jdbcType=VARCHAR}, #{upload, jdbcType=VARCHAR})
-	</insert>
-	<!-- 답변 기능 추가후 쿼리문 수정  -->
 <!-- 	<insert id="boardInsert" parameterType="spring_07_board.dto.BoardDTO"> -->
-<!--     		INSERT INTO hr.board (num, writer, email, subject, reg_date, readcount,  -->
-<!--     		                                   ref, re_step, re_level, content, ip, upload) -->
-<!--     		VALUES (board_seq.nextval, #{writer}, #{email}, #{subject}, sysdate, 0, -->
-    		              
-<!--     	<choose> -->
+<!-- 		INSERT INTO hr.board (num, writer, email, subject, reg_date, readcount, ref, re_step, re_level, content, ip, upload) -->
+<!-- 		VALUES (board_seq.nextval, #{writer}, #{email}, #{subject}, sysdate, default, board_seq.nextval, 0, 0, #{content}, #{ip, jdbcType=VARCHAR}, #{upload, jdbcType=VARCHAR}) -->
+<!-- 	</insert> -->
+	<!-- 답변 기능 추가후 쿼리문 수정  -->
+	<insert id="boardInsert" parameterType="spring_07_board.dto.BoardDTO">
+   		INSERT INTO hr.board (num, writer, email, subject, reg_date, readcount, ref, re_step, re_level, content, ip, upload)
+   		VALUES (board_seq.nextval, #{writer}, #{email}, #{subject}, sysdate, 0,
+    	<choose>
     		<!-- test에 사용된 ref는 파라미터로 넘어온 dto.getRef()로 가져온다. -->
     		<!-- 제목글일 경우 ref를 num(글번호)와 동일한 값으로 저장함. -->
-<!--     		<when test="ref==0"> -->
-<!--     				board_seq.nextval -->
-<!--     		</when> -->
+    		<when test="ref==0">
+    			board_seq.nextval
+    		</when>
     		<!-- 답변글일 경우 : ServiceImp에서 넘기는 값이 있음. -->
-<!--     		<otherwise> -->
-<!--     				#{ref} -->
-<!--     		</otherwise> -->
-<!--     	</choose> -->
-<!--     		         , #{re_step}, #{re_level}, #{content}, #{ip, jdbcType=VARCHAR}, #{upload, jdbcType=VARCHAR})             -->
-<!--     </insert> -->
+    		<otherwise>
+    			#{ref}
+    		</otherwise>
+    	</choose>
+		, #{re_step}, #{re_level}, #{content}, #{ip, jdbcType=VARCHAR}, #{upload, jdbcType=VARCHAR})            
+    </insert>
     
     <!-- 답변글 일경우만, reStep 수정 -->
     <!-- 기준글의 ref와 ref값이 동일하고, 기준글의 re_step 보다 큰 게시글들의 re_step 값 모두 1씩 증가 -->
     <update id="reStepUpdate" parameterType="spring_07_board.dto.BoardDTO">
     	UPDATE hr.board
-    	SET re_step = #{re_step}+1
+    	SET re_step = re_step + 1
     	WHERE ref = #{ref} and re_step > #{re_step}
     </update>
     

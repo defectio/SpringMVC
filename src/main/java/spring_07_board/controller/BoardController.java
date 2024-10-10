@@ -45,9 +45,7 @@ public class BoardController {
 	}
 
 	/**
-	 * 게시글을 작성한다.(제목글, 답변글 모두 같은 액션을 동작함)
-	 *  - 제목글 : num, ref, re_step, re_level 값이 모두 0 임.
-	 *  - 답변글 : num, ref, re_step, re_level 값이 정해져 있음. ref는 0이 절대 아님.
+	 * 게시글을 작성한다.(제목글, 답변글 모두 같은 액션으로 동작함)
 	 * @param mav
 	 * @param board
 	 * @return
@@ -56,7 +54,7 @@ public class BoardController {
 	public ModelAndView boardWriteMethod(ModelAndView mav, @ModelAttribute("board") BoardDTO board) {
 		/**
 		 * 제목글 저장 시 num, ref, re_step, re_level는 모두 default값으로 전달되기 때문에 0으로 넘어온다.
-		 * 답변글 저장시 num, ref, re_step, re_level 값이 넘어 오는데, ref(제목글과 동일한값)는 무조건 0이 아닌 값이 넘어온다.
+		 * 답변글 저장 시 num, ref, re_step, re_level 값이 넘어 오는데, ref(제목글과 동일한값)는 무조건 0이 아닌 값이 넘어온다.
 		 */
 		if (board.getRef() != 0) { // 답변글
 			 service.boardReplyWriteInsert(board);
