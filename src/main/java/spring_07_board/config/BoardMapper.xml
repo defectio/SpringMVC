@@ -3,7 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
-<mapper namespace="basic">
+<mapper namespace="board">
 	
 	<!-- (1) 제목글만 작성할 경우 -->
 <!-- 	<select id="boardList" resultType="spring_07_board.dto.BoardDTO"> -->

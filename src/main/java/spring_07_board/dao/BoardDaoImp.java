@@ -19,7 +19,7 @@ public class BoardDaoImp implements BoardDao {
 	 */
 	@Override
 	public List<BoardDTO> selectBoardListMethod() {
-		return sqlSession.selectList("basic.boardList");
+		return sqlSession.selectList("board.boardList");
 	}
 	
 	/**
@@ -27,7 +27,7 @@ public class BoardDaoImp implements BoardDao {
 	 */
 	@Override
 	public void boardWriteInsertMethod(BoardDTO board) {
-		sqlSession.insert("basic.boardInsert", board);
+		sqlSession.insert("board.boardInsert", board);
 	}
 	
 	/**
@@ -35,7 +35,7 @@ public class BoardDaoImp implements BoardDao {
 	 */
 	@Override
 	public BoardDTO selectBoardByNumMethod(int num) {
-		return sqlSession.selectOne("basic.boardByNum", num);
+		return sqlSession.selectOne("board.boardByNum", num);
 	}
 	
 	/**
@@ -43,7 +43,7 @@ public class BoardDaoImp implements BoardDao {
 	 */
 	@Override
 	public void readCountMethod(int num) {
-		sqlSession.update("basic.readCount", num);
+		sqlSession.update("board.readCount", num);
 	}
 	
 	/**
@@ -51,7 +51,7 @@ public class BoardDaoImp implements BoardDao {
 	 */
 	@Override
 	public void boardUpdateMethod(BoardDTO board) {
-		sqlSession.update("basic.updateByNum", board);
+		sqlSession.update("board.updateByNum", board);
 	}
 	
 	/**
@@ -59,7 +59,7 @@ public class BoardDaoImp implements BoardDao {
 	 */
 	@Override
 	public void boardDeleteMethod(int num) {
-		sqlSession.delete("basic.deleteByNum", num);
+		sqlSession.delete("board.deleteByNum", num);
 	}
 	
 	/**
@@ -67,7 +67,7 @@ public class BoardDaoImp implements BoardDao {
 	 */
 	@Override
 	public void reStepUpdateMethod(BoardDTO board) {
-		sqlSession.update("basic.reStepUpdate", board);
+		sqlSession.update("board.reStepUpdate", board);
 	}
 	
 }
