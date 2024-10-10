@@ -9,13 +9,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import spring_07_board.dto.BoardDTO;
+import spring_07_board.dto.PageDTO;
 import spring_07_board.service.BoardService;
 
 @Controller
 public class BoardController {
 
 	private BoardService service;
-
+	private int currentPage;
+	private PageDTO pdto;
+	
 	public void setService(BoardService service) {
 		this.service = service;
 	}
@@ -26,11 +29,27 @@ public class BoardController {
 	 * @return
 	 */
 	@GetMapping("/main.do")
-	public ModelAndView boardList(ModelAndView mav) {
-		List<BoardDTO> boardList = service.selectBoardList();
-		mav.addObject("board", boardList);
-		mav.setViewName("boardList");
+	public ModelAndView boardList(ModelAndView mav, PageDTO pv) {
 		
+		int totalRecord = service.boardTotalCount();
+		
+		if (totalRecord >= 1) { //현재 DB에 저장된 레코드가 있으면 실행됨.
+			if(pv.getCurrentPage() == 0) {  //처음 게시판메뉴를 클릭하고 들어왔을때(currentPage 값을 안넘겨줌)
+				currentPage = 1;
+			} else {
+				currentPage = pv.getCurrentPage();
+			}
+			
+			/* currentPage, totalRecord가 저장된 PageDTO 객체를 넘겨야함. */
+			pdto = new PageDTO(currentPage, totalRecord);   //검색어 처리 전
+			//currentPage, totalRecord값으로 PageDTO 생성하면, 
+			//startRow, endRow, totalPage, startPage, endPage, number가 PageDTO에 저장됨
+			
+			mav.addObject("board", service.selectBoardList(pdto));
+			mav.addObject("pv", pdto);
+		} 
+		mav.setViewName("boardList");
+
 		return mav;
 	}
 

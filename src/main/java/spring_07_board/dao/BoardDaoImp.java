@@ -5,6 +5,7 @@ import java.util.List;
 import org.mybatis.spring.SqlSessionTemplate;
 
 import spring_07_board.dto.BoardDTO;
+import spring_07_board.dto.PageDTO;
 
 public class BoardDaoImp implements BoardDao {
 
@@ -18,8 +19,8 @@ public class BoardDaoImp implements BoardDao {
 	 * 글 전체 목록을 출력한다.
 	 */
 	@Override
-	public List<BoardDTO> selectBoardListMethod() {
-		return sqlSession.selectList("board.boardList");
+	public List<BoardDTO> selectBoardListMethod(PageDTO pdto) {
+		return sqlSession.selectList("board.boardList", pdto);
 	}
 	
 	/**
@@ -68,6 +69,11 @@ public class BoardDaoImp implements BoardDao {
 	@Override
 	public void reStepUpdateMethod(BoardDTO board) {
 		sqlSession.update("board.reStepUpdate", board);
+	}
+
+	@Override
+	public int getTotalCount() {
+		return sqlSession.selectOne("board.count");
 	}
 	
 }

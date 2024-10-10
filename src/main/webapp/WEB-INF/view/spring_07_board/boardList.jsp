@@ -12,6 +12,29 @@ body {margin:30px 0; padding: 0px;}
 table { width:1000px; margin:auto;}
 th, td {text-align : center;}
 th {background-color: beige;}
+.pageArea {
+		width:400px;
+		height:40px;
+		padding:10px auto;
+	}
+	.pageList {
+		width: 100px;
+		height:30px;
+		margin:10px auto;
+	}
+	.btnArea {
+		width:70px;
+		height:35px;
+		margin:10px auto;
+	}
+	.pageList a {
+		text-decoration:none;
+		color:black;
+	}
+	.pageList a:hover, .pageList .pagecolor{
+		text-decoration:underline;
+		color:red;
+	}
 </style>
 </head>
 <body>
@@ -54,6 +77,51 @@ th {background-color: beige;}
 		</c:choose>
 	</table>
 	
+	<!-- 페이징 처리 하기 (이미지가 있으면 좋음) -->
+	<div class="pageArea">
+		<div class="pageList">
+			<!-- "이전" 출력 -->
+			<!-- startPage가 될 수 있는 값들은 1, 4, 7, 10,.... 인데 1만 아니면 이전에 출력 되어야함. -->
+			<c:if test="${pv.startPage > 1 }">					<!-- 이전 클릭했을때 1,2,3 이 나와야함. startPage-blockPage(한 블록에 보여줄 페이지수) = currentPage-->
+				<%-- <a href="main.do?currentPage=${pv.startPage-pv.blockPage}&searchKey=${pv.searchKey}&searchWord=${pv.searchWord}">이전</a> --%>
+				<a href="main.do?currentPage=${pv.startPage - 1}">이전</a>
+			</c:if>
+	
+			<!-- "페이지 번호" 출력(forEach 사용) -->
+			<c:forEach var="i" begin="${pv.startPage}" end="${pv.endPage}">
+				<!-- 현재 페이지값을 넘기기. parameter명을 currentPage로 해야함 -->
+				<%-- <span>
+					<a class="pagecolor" href="main.do?currentPage=${i}">${i}</a></span> --%>
+				<span>
+					<c:url var="currPage" value="main.do">
+						<c:param name="currentPage" value="${i}" />
+<%-- 						<c:param name="searchKey" value="${pv.searchKey}" /> --%>
+<%-- 						<c:param name="searchWord" value="${pv.searchWord}" /> --%>
+					</c:url>
+					<c:choose>
+						<c:when test="${i==pv.currentPage}">    <!-- 현재 보고 있는 페이지의 번호에 css 적용 -->
+							<a href="${currPage}" class="pagecolor">
+								<c:out value="${i}" /></a>
+						</c:when>
+						<c:otherwise>
+							<a href="${currPage}">
+								<c:out value="${i}" /></a>
+						</c:otherwise>
+					</c:choose>
+				</span>
+			</c:forEach>
+			<!-- 페이지 출력 끝 -->
+	
+			<!-- "다음" 출력 시작 -->
+			<!-- endPage<totalPage 이면 보여줄께 있다.는 의미-->
+			<c:if test="${pv.endPage < pv.totalPage}">
+				<!-- 다음 클릭했을때 4가 나와야함. startPage(1)+blockPage(한 블록에 보여줄 페이지수, 3)-->
+				<a href="main.do?currentPage=${pv.startPage+pv.blockPage}">다음</a>
+			</c:if>
+			<!-- 다음 출력 끝 -->
+		</div>  <!-- end pageList -->
+	</div>  <!-- end pageArea-->
+		
 	<div style="margin:auto; padding:auto;width:1000px; margin-top:20px">
 		<a href="write.do">글쓰기</a>
 	</div>

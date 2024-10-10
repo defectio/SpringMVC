@@ -4,6 +4,7 @@ import java.util.List;
 
 import spring_07_board.dao.BoardDao;
 import spring_07_board.dto.BoardDTO;
+import spring_07_board.dto.PageDTO;
 
 public class BoardServiceImp implements BoardService {
 
@@ -17,8 +18,8 @@ public class BoardServiceImp implements BoardService {
 	 * 게시글 전체 목록을 가져온다.
 	 */
 	@Override
-	public List<BoardDTO> selectBoardList() {
-		return dao.selectBoardListMethod();
+	public List<BoardDTO> selectBoardList(PageDTO pdto) {
+		return dao.selectBoardListMethod(pdto);
 	}
 	
 	/**
@@ -70,6 +71,14 @@ public class BoardServiceImp implements BoardService {
 		
 		//작성글 저장
 		dao.boardWriteInsertMethod(board);
+	}
+
+	/**
+	 * 총 게시글 수를 리턴하다.
+	 */
+	@Override
+	public int boardTotalCount() {
+		return dao.getTotalCount();
 	}
 
 }

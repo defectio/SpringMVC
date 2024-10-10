@@ -17,11 +17,17 @@
 <!-- 		FROM hr.board -->
 <!-- 		ORDER BY num, re_step desc -->
 <!-- 	</select> -->
-	<!-- 정렬조건 : 최신작성글이 맨위로, 답변글은 제목글 하위에 level별 최신작성순 -->
-	<select id="boardList" resultType="spring_07_board.dto.BoardDTO">
-		SELECT * 
-		FROM board 
-		ORDER BY ref desc, re_step asc
+	<!-- (3) 정렬조건 : 최신작성글이 맨위로, 답변글은 제목글 하위에 level별 최신작성순 -->
+<!-- 	<select id="boardList" resultType="spring_07_board.dto.BoardDTO"> -->
+<!-- 		SELECT *  -->
+<!-- 		FROM board  -->
+<!-- 		ORDER BY ref desc, re_step asc -->
+<!-- 	</select> -->
+	<!-- (4) 페이징 처리 -->
+	<select id="boardList" resultType="spring_07_board.dto.BoardDTO" parameterType="spring_07_board.dto.PageDTO">
+		<![CDATA[ 
+			SELECT b.* FROM (SELECT rownum as rm, a.* FROM (SELECT * FROM hr.board ORDER BY ref desc, re_step asc) a ) b WHERE b.rm>=#{startRow} and b.rm<=#{endRow} 
+		]]>
 	</select>
 	
 	<!-- [글 작성하기(DB에 insert)]  -->
@@ -81,5 +87,12 @@
 	<delete id="deleteByNum" parameterType="int">
 		DELETE FROM hr.board
 		WHERE num = #{num}
-	</delete>	
+	</delete>
+	
+	<!-- 총 건수 -->
+	<!-- paging 처리만 했을 때  -->
+	<select id="count" resultType="int">
+   		SELECT count(*)
+   		FROM hr.board
+   	</select>
 </mapper>

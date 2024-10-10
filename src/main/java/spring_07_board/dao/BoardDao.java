@@ -3,6 +3,7 @@ package spring_07_board.dao;
 import java.util.List;
 
 import spring_07_board.dto.BoardDTO;
+import spring_07_board.dto.PageDTO;
 
 public interface BoardDao {
 
@@ -10,7 +11,7 @@ public interface BoardDao {
 	 * 글 전체 목록을 출력한다.
 	 * @return
 	 */
-	public List<BoardDTO> selectBoardListMethod();
+	public List<BoardDTO> selectBoardListMethod(PageDTO pdto);
 	
 	/**
 	 * 글을 작성한다.
@@ -48,5 +49,11 @@ public interface BoardDao {
 	 * @param board
 	 */
 	public void reStepUpdateMethod(BoardDTO board);
+	
+	/**
+	 * 게시글의 총 건수를 리턴한다.
+	 * @return
+	 */
+	public int getTotalCount();
 	
 }
