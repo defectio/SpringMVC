@@ -57,7 +57,6 @@ function btnSaveProcess(){
 				</td>
 			</tr>
 		</table>
-		${board}
 			num : <input type="text" name="num" value="${board.num }">
 			ref : <input type="text" name="ref" value="${board.ref }">
 			re_step : <input type="text" name="re_step" value="${board.re_step }">
